@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link href="./public/css/main.css" rel="stylesheet" />
+
+    <title>Les Petits plats</title>
+  </head>
+  <header>
+    <img src="./public/img/logo.png" alt="Logo du site les petits plats" />
+  </header>
+  <body>
+    <section class="section--search">
+      <input
+        class="search--searchbar form-control"
+        type="searchbar"
+        value="Rechercher un ingrédient, appareil, ustensiles ou une recette"
+      />
+      <div id="ingredient-dropdown-filter" class="btn btn-primary filters--dropdown--ingredients">
+        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()" onfocus="displayOptions()" onfocusout="hideOptions()">
+        <a class="filters--dropdown--ingredients--selection--hidden" href="#about">About</a>
+        <a class="filters--dropdown--ingredients--selection--hidden" href="#base">Base</a>
+        <a class="filters--dropdown--ingredients--selection--hidden" href="#blog">Blog</a>
+        <a class="filters--dropdown--ingredients--selection--hidden" href="#contact">Contact</a>
+        <a class="filters--dropdown--ingredients--selection--hidden" href="#custom">Custom</a>
+        <a class="filters--dropdown--ingredients--selection--hidden" href="#support">Support</a>
+        <a class="filters--dropdown--ingredients--selection--hidden" href="#tools">Tools</a>
+      </div>
+    </section>
+    <h1>Hello, world!</h1>
+  </body>
+
+  <!-- Scripts de la page -->
+  <script src="./js/index.js"></script>
+</html>
