@@ -23,5 +23,34 @@ function createHTMLCode(recipe) {
 </figure>
 </article> 
 `;
+
   return photographerHtmlCode;
+}
+
+function displayIngredients(recipe) {
+  const articleIngredients = document.getElementById(
+    "ingredients-" + recipe.id
+  );
+  for (ingredient of recipe.ingredients) {
+    textValue = "";
+    if (ingredient.ingredient && ingredient.quantity && ingredient.unit)
+      textValue =
+        "<b>" +
+        ingredient.ingredient +
+        ":</b>" +
+        " " +
+        ingredient.quantity +
+        " " +
+        ingredient.unit;
+    if (ingredient.ingredient && ingredient.quantity && !ingredient.unit) {
+      textValue =
+        "<b>" + ingredient.ingredient + ":</b>" + " " + ingredient.quantity;
+    }
+    if (ingredient.ingredient && !ingredient.quantity) {
+      textValue = "<b>" + ingredient.ingredient + ":</b>";
+    }
+    articleIngredients.innerHTML += `
+<p id="${ingredient}-${recipe.id}" class="recipe--ingredients-description--ingredients--text">${textValue}</p>
+`;
+  }
 }
