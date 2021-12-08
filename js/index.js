@@ -87,17 +87,54 @@ function searchRecipe(searchValue) {
   // Si la valeur du champ de recherche est du texte
   if (searchValue !== "") {
     let searchData = recipeList.filter(
+      // On filtre le tableau contenant la liste des recettes
       (recipeList) =>
-        recipeList.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-        recipeList.description
+        recipeList.name // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
+          .toLowerCase() // Transformation de tous les caractères en minuscule
+          .normalize("NFD") // Normalisation des caractères (Normalization Form Canonical Decomposition)
+          .replace(/[\u0300-\u036f]/g, "") // Remplacement des accents par les lettres sans accents de manière à éviter les fautes
+          .includes(
+            searchValue
+              .toLowerCase() // Même démarche pour le texte entré dans le champ de recherche
+              .normalize("NFD") // Afin de faire correspondre les mots et de trouver plus facilement les recettes voulues
+              .replace(/[\u0300-\u036f]/g, "")
+          ) ||
+        recipeList.description // Pour les recettes
           .toLowerCase()
-          .includes(searchValue.toLowerCase()) ||
-        recipeList.ustensils
-          .map((ustensils) => ustensils.toLowerCase())
-          .includes(searchValue.toLowerCase()) ||
-        recipeList.ingredients
-          .map((ingredients) => ingredients.ingredient.toLowerCase())
-          .includes(searchValue.toLowerCase())
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .includes(
+            searchValue
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+          ) ||
+        recipeList.ustensils // Pour les noms des ustensiles
+          .map((ustensils) =>
+            ustensils
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+          )
+          .includes(
+            searchValue
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+          ) ||
+        recipeList.ingredients // Pour les noms des ingrédients
+          .map((ingredients) =>
+            ingredients.ingredient
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+          )
+          .includes(
+            searchValue
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+          )
     );
     if (searchData.length == 0) {
       recipeSection.innerHTML = `Aucun résultat trouvé pour "${searchValue}"`;
