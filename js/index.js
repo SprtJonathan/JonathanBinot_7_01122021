@@ -6,45 +6,25 @@ let recipeList = [];
 
 fetchData();
 
-function filterFunction(param) {
-  let input = document.getElementById("myInput");
-  let filter = input.value.toUpperCase();
-  let filterSelection = document.querySelectorAll(".selection-" + param);
-  console.log(filterSelection);
-  for (let i = 0; i < filterSelection.length; i++) {
-    input.value =
-      filterSelection[i].textContent || filterSelection[i].innerText;
-    if (input.value.toUpperCase().indexOf(filter) > -1) {
-      filterSelection[i].style.display =
-        "filters--dropdown--selection selection-" + param;
-    } else {
-      filterSelection[i].style.display = "filters--dropdown--selection--hidden";
-    }
-  }
-}
+function filterFunction(param) {}
 
 // Fonction permettant d'afficher les options des filtres
 function displayOptions(param) {
-  let filterSelection = document.querySelectorAll(".selection-" + param);
-  console.log(filterSelection);
-  for (let i = 0; i < filterSelection.length; i++) {
-    filterSelection[i].className =
-      "filters--dropdown--selection selection-" + param;
-  }
+  let dropdownDiv = document.getElementById("div-dropdown-" + param);
+  dropdownDiv.style.display = "flex";
 }
 
 // Fonction permettant de cacher les options des filtres
 function hideOptions(param) {
-  let filterSelection = document.querySelectorAll(".selection-" + param);
-  console.log(filterSelection);
-  for (let i = 0; i < filterSelection.length; i++) {
-    filterSelection[i].className =
-      "filters--dropdown--selection--hidden selection-" + param;
-  }
+  let dropdownDiv = document.getElementById("div-dropdown-" + param);
+  dropdownDiv.style.display = "none";
 }
 
 // Récupération des données des recettes
 function fetchData() {
+  showIngredients();
+  showDevices();
+  showUtenils();
   fetch(dataLocation)
     .then((response) => response.json())
     .then(function getRecipeInfo(data) {
@@ -137,6 +117,7 @@ function searchRecipe(searchValue) {
           )
     );
     if (searchData.length == 0) {
+      // Si aucun objet n'est ajouté au tableau / Aucun résultat ne resort, alors on affiche le message
       recipeSection.innerHTML = `Aucun résultat trouvé pour "${searchValue}"`;
     } else {
       displayRecipes(searchData, searchResults);
@@ -145,4 +126,71 @@ function searchRecipe(searchValue) {
   } else {
     fetchData();
   }
+}
+
+function showIngredients() {
+  let divIngredients = document.getElementById("div-dropdown-ingredient");
+  let ingredientsTab = [];
+  fetch(dataLocation)
+    .then((response) => response.json())
+    .then(function addToArray(data) {
+      for (let j = 0; j < data.length; j++) {
+        for (let i = 0; i < data[j].ingredients.length; i++) {
+          if (
+            !ingredientsTab.includes(
+              data[j].ingredients[i].ingredient.toLowerCase()
+            )
+          ) {
+            ingredientsTab.push(
+              data[j].ingredients[i].ingredient.toLowerCase()
+            );
+          }
+        }
+      }
+      // Création d'un bloc HTML pour chaque élément du tableau
+      for (let i = 0; i < ingredientsTab.length; i++) {
+        divIngredients.innerHTML += `<span id="ingredient-id-${i}" class="filters--dropdown--block">${ingredientsTab[i]}</span>`;
+      }
+      console.log(ingredientsTab);
+    });
+}
+
+function showDevices() {
+  let divDevices = document.getElementById("div-dropdown-device");
+  let devicesTab = [];
+  divDevices.innerHTML = "";
+  fetch(dataLocation)
+    .then((response) => response.json())
+    .then(function addToArray(data) {
+      for (let j = 0; j < data.length; j++) {
+        if (!devicesTab.includes(data[j].appliance.toLowerCase())) {
+          devicesTab.push(data[j].appliance.toLowerCase());
+        }
+      }
+      // Création d'un bloc HTML pour chaque élément du tableau
+      for (let i = 0; i < devicesTab.length; i++) {
+        divDevices.innerHTML += `<span id="device-id-${i}" class="filters--dropdown--block">${devicesTab[i]}</span>`;
+      }
+    });
+}
+
+function showUtenils() {
+  let divUtensils = document.getElementById("div-dropdown-utensil");
+  let utensilsTab = [];
+  divUtensils.innerHTML = "";
+  fetch(dataLocation)
+    .then((response) => response.json())
+    .then(function addToArray(data) {
+      for (let j = 0; j < data.length; j++) {
+        for (let i = 0; i < data[j].ustensils.length; i++) {
+          if (!utensilsTab.includes(data[j].ustensils[i].toLowerCase())) {
+            utensilsTab.push(data[j].ustensils[i].toLowerCase());
+          }
+        }
+      }
+      // Création d'un bloc HTML pour chaque élément du tableau
+      for (let i = 0; i < utensilsTab.length; i++) {
+        divUtensils.innerHTML += `<span id="utensil-id-${i}" class="filters--dropdown--block">${utensilsTab[i]}</span>`;
+      }
+    });
 }

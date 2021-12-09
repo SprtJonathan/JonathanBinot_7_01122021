@@ -73,6 +73,12 @@ header {
       -ms-flex-pack: start;
           justify-content: flex-start;
   margin: 2rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.filters--dropdown--block:hover {
+  background-color: white;
 }
 
 .filters--dropdown--ingredient {

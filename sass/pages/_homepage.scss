@@ -57,6 +57,11 @@ header {
       flex-direction: row;
       justify-content: flex-start;
       margin: 2rem;
+      max-height: 300px;
+      overflow-y: auto;
+      &:hover {
+        background-color: white;
+      }
     }
     &--ingredient {
       background-color: $blue-filter-color;

@@ -14,7 +14,11 @@
     <title>Les Petits plats</title>
   </head>
   <header>
-    <img class="logo" src="./public/img/logo.png" alt="Logo du site les petits plats" />
+    <img
+      class="logo"
+      src="./public/img/logo.png"
+      alt="Logo du site les petits plats"
+    />
   </header>
   <body>
     <section class="section--search">
@@ -35,13 +39,12 @@
             onfocus="displayOptions('ingredient')"
             onfocusout="hideOptions('ingredient')"
           />
-          <div class="filters--dropdown filters--dropdown--ingredient">
-            
-          </div>
+          <div
+            id="div-dropdown-ingredient"
+            class="filters--dropdown filters--dropdown--ingredient"
+          ></div>
         </div>
-        <div
-          id="device-dropdown-filter"
-        >
+        <div id="device-dropdown-filter">
           <input
             type="text"
             placeholder="Appareil"
@@ -51,13 +54,12 @@
             onfocus="displayOptions('device')"
             onfocusout="hideOptions('device')"
           />
-          <div class="filters--dropdown filters--dropdown--device">
-           
-          </div>
+          <div
+            id="div-dropdown-device"
+            class="filters--dropdown filters--dropdown--device"
+          ></div>
         </div>
-        <div
-          id="utensil-dropdown-filter"
-        >
+        <div id="utensil-dropdown-filter">
           <input
             type="text"
             placeholder="Ustensile"
@@ -67,12 +69,26 @@
             onfocus="displayOptions('utensil')"
             onfocusout="hideOptions('utensil')"
           />
-          <div class="filters--dropdown filters--dropdown--utensil">
-           
-          </div>
+          <div
+            id="div-dropdown-utensil"
+            class="filters--dropdown filters--dropdown--utensil"
+          ></div>
         </div>
       </aside>
     </section>
+    <div class="container">
+      <button id="show-ingredients" class="btn btn-dark">
+        Cliquer pour montrer les ingrédients
+      </button>
+      <button id="show-devices" class="btn btn-dark">
+        Cliquer pour montrer les appareils
+      </button>
+      <p id="devices-p"></p>
+      <button id="show-utensils" class="btn btn-dark">
+        Cliquer pour montrer les ustensiles
+      </button>
+      <p id="utensils-p"></p>
+    </div>
     <section id="results-section" class="recipe--section"></section>
   </body>
 
