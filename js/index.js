@@ -3,6 +3,7 @@ const recipeSection = document.getElementById("results-section");
 const searchBar = document.getElementById("searchbar");
 
 let recipeList = [];
+let filterDropdownSelect;
 
 fetchData();
 
@@ -149,10 +150,26 @@ function showIngredients() {
       }
       // Création d'un bloc HTML pour chaque élément du tableau
       for (let i = 0; i < ingredientsTab.length; i++) {
-        divIngredients.innerHTML += `<span id="ingredient-id-${i}" class="filters--dropdown--block">${ingredientsTab[i]}</span>`;
+        divIngredients.innerHTML += `<span id="ingredient-id-${i}" class="filters--dropdown--element select-ingredient">${ingredientsTab[i]}</span>`;
       }
       console.log(ingredientsTab);
+
+      filterDropdownSelect = document.querySelectorAll(".select-ingredient");
+      console.log(filterDropdownSelect);
+      filterDropdownSelect.forEach((el) =>
+        el.addEventListener("click", (event) => {
+          filterSearch(event, "ingredient");
+        })
+      );
     });
+}
+
+function filterSearch(filter, type) {
+  if (filter.target.id.includes(type + "-id-")) {
+    let filterSearchBar = document.getElementById(type + "-searchbar");
+    filterSearchBar.value = filter.target.innerText;
+    searchRecipe(filter.target.innerText);
+  }
 }
 
 function showDevices() {
@@ -169,8 +186,16 @@ function showDevices() {
       }
       // Création d'un bloc HTML pour chaque élément du tableau
       for (let i = 0; i < devicesTab.length; i++) {
-        divDevices.innerHTML += `<span id="device-id-${i}" class="filters--dropdown--block">${devicesTab[i]}</span>`;
+        divDevices.innerHTML += `<span id="device-id-${i}" class="filters--dropdown--element select-device">${devicesTab[i]}</span>`;
       }
+
+      filterDropdownSelect = document.querySelectorAll(".select-device");
+      console.log(filterDropdownSelect);
+      filterDropdownSelect.forEach((el) =>
+        el.addEventListener("click", (event) => {
+          filterSearch(event, "device");
+        })
+      );
     });
 }
 
@@ -190,7 +215,14 @@ function showUtenils() {
       }
       // Création d'un bloc HTML pour chaque élément du tableau
       for (let i = 0; i < utensilsTab.length; i++) {
-        divUtensils.innerHTML += `<span id="utensil-id-${i}" class="filters--dropdown--block">${utensilsTab[i]}</span>`;
+        divUtensils.innerHTML += `<span id="utensil-id-${i}" class="filters--dropdown--element select-utensil">${utensilsTab[i]}</span>`;
       }
+      filterDropdownSelect = document.querySelectorAll(".select-utensil");
+      console.log(filterDropdownSelect);
+      filterDropdownSelect.forEach((el) =>
+        el.addEventListener("click", (event) => {
+          filterSearch(event, "utensil");
+        })
+      );
     });
 }

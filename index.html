@@ -28,46 +28,52 @@
         id="searchbar"
         placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette"
       />
-      <aside class="filters--dropdown--block">
-        <div id="ingredient-dropdown-filter">
+      <aside class="filters--dropdown--aside">
+        <div
+          id="ingredient-dropdown-filter"
+          class="filters--dropdown--block filters--dropdown--block--ingredient"
+        >
           <input
             type="text"
             placeholder="Ingrédient"
-            id="myInput"
+            id="ingredient-searchbar"
             class="filters--input filters--input--ingredient"
             onkeyup="filterFunction('ingredient')"
             onfocus="displayOptions('ingredient')"
-            onfocusout="hideOptions('ingredient')"
           />
           <div
             id="div-dropdown-ingredient"
             class="filters--dropdown filters--dropdown--ingredient"
           ></div>
         </div>
-        <div id="device-dropdown-filter">
+        <div
+          id="device-dropdown-filter"
+          class="filters--dropdown--block filters--dropdown--block--device"
+        >
           <input
             type="text"
             placeholder="Appareil"
-            id="myInput"
+            id="device-searchbar"
             class="filters--input filters--input--device"
             onkeyup="filterFunction('device')"
             onfocus="displayOptions('device')"
-            onfocusout="hideOptions('device')"
           />
           <div
             id="div-dropdown-device"
             class="filters--dropdown filters--dropdown--device"
           ></div>
         </div>
-        <div id="utensil-dropdown-filter">
+        <div
+          id="utensil-dropdown-filter"
+          class="filters--dropdown--block filters--dropdown--block--utensil"
+        >
           <input
             type="text"
             placeholder="Ustensile"
-            id="myInput"
+            id="utensil-searchbar"
             class="filters--input filters--input--utensil"
             onkeyup="filterFunction('utensil')"
             onfocus="displayOptions('utensil')"
-            onfocusout="hideOptions('utensil')"
           />
           <div
             id="div-dropdown-utensil"
@@ -76,19 +82,7 @@
         </div>
       </aside>
     </section>
-    <div class="container">
-      <button id="show-ingredients" class="btn btn-dark">
-        Cliquer pour montrer les ingrédients
-      </button>
-      <button id="show-devices" class="btn btn-dark">
-        Cliquer pour montrer les appareils
-      </button>
-      <p id="devices-p"></p>
-      <button id="show-utensils" class="btn btn-dark">
-        Cliquer pour montrer les ustensiles
-      </button>
-      <p id="utensils-p"></p>
-    </div>
+
     <section id="results-section" class="recipe--section"></section>
   </body>
 

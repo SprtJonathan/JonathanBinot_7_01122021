@@ -21,7 +21,7 @@ header {
 
 /* Dropdown Content (Hidden by Default) */
 .filters--input {
-  color: white;
+  color: black;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   background-position: 14px 12px;
@@ -32,18 +32,6 @@ header {
   border: none;
   border-radius: 10px;
   margin: 2rem;
-}
-
-.filters--input--ingredient {
-  background-color: #3282f7;
-}
-
-.filters--input--device {
-  background-color: #68d9a4;
-}
-
-.filters--input--utensil {
-  background-color: #ed6454;
 }
 
 .filters--input:focus {
@@ -61,7 +49,11 @@ header {
   z-index: 1;
 }
 
-.filters--dropdown--block {
+.filters--dropdown--element:hover {
+  background-color: white;
+}
+
+.filters--dropdown--aside {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -72,24 +64,25 @@ header {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
+  width: 90%;
+}
+
+.filters--dropdown--block {
   margin: 2rem;
+  padding: 0px;
   max-height: 300px;
   overflow-y: auto;
 }
 
-.filters--dropdown--block:hover {
-  background-color: white;
-}
-
-.filters--dropdown--ingredient {
+.filters--dropdown--block--ingredient {
   background-color: #3282f7;
 }
 
-.filters--dropdown--device {
+.filters--dropdown--block--device {
   background-color: #68d9a4;
 }
 
-.filters--dropdown--utensil {
+.filters--dropdown--block--utensil {
   background-color: #ed6454;
 }
 
