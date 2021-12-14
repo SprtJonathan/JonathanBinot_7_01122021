@@ -25,7 +25,7 @@ function hideOptions(param) {
 function fetchData() {
   showIngredients();
   showDevices();
-  showUtenils();
+  showUtensils();
   fetch(dataLocation)
     .then((response) => response.json())
     .then(function getRecipeInfo(data) {
@@ -132,6 +132,7 @@ function searchRecipe(searchValue) {
 function showIngredients() {
   let divIngredients = document.getElementById("div-dropdown-ingredient");
   let ingredientsTab = [];
+  divIngredients.innerHTML = "";
   fetch(dataLocation)
     .then((response) => response.json())
     .then(function addToArray(data) {
@@ -140,7 +141,17 @@ function showIngredients() {
           if (
             !ingredientsTab.includes(
               data[j].ingredients[i].ingredient.toLowerCase()
-            )
+            ) &&
+            data[j].ingredients[i].ingredient
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .includes(
+                searchBarIngredients.value
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+              )
           ) {
             ingredientsTab.push(
               data[j].ingredients[i].ingredient.toLowerCase()
@@ -180,7 +191,19 @@ function showDevices() {
     .then((response) => response.json())
     .then(function addToArray(data) {
       for (let j = 0; j < data.length; j++) {
-        if (!devicesTab.includes(data[j].appliance.toLowerCase())) {
+        if (
+          !devicesTab.includes(data[j].appliance.toLowerCase()) &&
+          data[j].appliance
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .includes(
+              searchBarDevices.value
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+            )
+        ) {
           devicesTab.push(data[j].appliance.toLowerCase());
         }
       }
@@ -199,7 +222,7 @@ function showDevices() {
     });
 }
 
-function showUtenils() {
+function showUtensils() {
   let divUtensils = document.getElementById("div-dropdown-utensil");
   let utensilsTab = [];
   divUtensils.innerHTML = "";
@@ -208,7 +231,19 @@ function showUtenils() {
     .then(function addToArray(data) {
       for (let j = 0; j < data.length; j++) {
         for (let i = 0; i < data[j].ustensils.length; i++) {
-          if (!utensilsTab.includes(data[j].ustensils[i].toLowerCase())) {
+          if (
+            !utensilsTab.includes(data[j].ustensils[i].toLowerCase()) &&
+            data[j].ustensils[i]
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .includes(
+                searchBarUtensils.value
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+              )
+          ) {
             utensilsTab.push(data[j].ustensils[i].toLowerCase());
           }
         }
@@ -226,3 +261,10 @@ function showUtenils() {
       );
     });
 }
+
+let searchBarIngredients = document.getElementById("ingredient-searchbar");
+let searchBarDevices = document.getElementById("device-searchbar");
+let searchBarUtensils = document.getElementById("utensil-searchbar");
+searchBarIngredients.addEventListener("keydown", showIngredients);
+searchBarDevices.addEventListener("keydown", showDevices);
+searchBarUtensils.addEventListener("keydown", showUtensils);
