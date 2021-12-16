@@ -31,21 +31,59 @@ header {
     padding: 0.5rem 1rem;
     text-align: center;
     border: none;
-    border-radius: 10px;
-    margin: 2rem;
+    border-radius: 5px;
+    margin: 2rem 2rem 2rem 0rem;
+    width: 500;
+    &::after {
+      content: "V";
+    }
+    &--expanded {
+      border-radius: 5px 5px 0px 0px;
+      width: 500px;
+      &--ingredient {
+        background-color: $blue-filter-color;
+      }
+      &--device {
+        background-color: $green-filter-color;
+      }
+      &--utensil {
+        background-color: $red-filter-color;
+      }
+      &::after {
+        content: "^";
+      }
+    }
+    &--ingredient {
+      background-color: $blue-filter-color;
+    }
+    &--device {
+      background-color: $green-filter-color;
+    }
+    &--utensil {
+      background-color: $red-filter-color;
+    }
     &:focus {
       outline: 3px solid #ddd;
     }
   }
   &--dropdown {
     display: none;
-    flex-direction: column;
-    min-width: 230px;
-    border-radius: 10px;
-    z-index: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-around;
+    width: 500px;
+    border-radius: 0px 0px 10px 10px;
+    z-index: 10;
+    padding: 1rem;
+    margin-top: -2rem;
     &--element {
+      color: white;
+      font-weight: 600;
+      margin: 1rem;
+      width: 25%;
       &:hover {
         background-color: white;
+        color: black;
       }
     }
     &--aside {
@@ -58,20 +96,10 @@ header {
       margin: 2rem;
       padding: 0px;
       max-height: 300px;
-      overflow-y: auto;
-      &--ingredient {
-        background-color: $blue-filter-color;
-      }
-      &--device {
-        background-color: $green-filter-color;
-      }
-      &--utensil {
-        background-color: $red-filter-color;
-      }
     }
     &--selection {
       display: block;
-      color: black;
+
       padding: 12px 16px;
       text-decoration: none;
       &--hidden {
@@ -80,6 +108,17 @@ header {
       &:hover {
         background-color: #f1f1f1;
       }
+    }
+  }
+  &--selection {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    padding: 0.2rem;
+    border-radius: 5px;
+    margin: 1rem;
+    &--text {
+      height: auto;
     }
   }
 }
@@ -151,5 +190,17 @@ header {
       width: 60%;
       overflow: hidden;
     }
+  }
+}
+
+.background {
+  &--ingredient {
+    background-color: $blue-filter-color;
+  }
+  &--device {
+    background-color: $green-filter-color;
+  }
+  &--utensil {
+    background-color: $red-filter-color;
   }
 }

@@ -28,56 +28,58 @@
         id="searchbar"
         placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette"
       />
+
+      <div id="chosen-filters" class="container-fluid"></div>
       <aside class="filters--dropdown--aside">
         <div
           id="ingredient-dropdown-filter"
-          class="filters--dropdown--block filters--dropdown--block--ingredient"
+          class="filters--dropdown--block"
         >
           <input
             type="text"
             placeholder="Ingrédient"
             id="ingredient-searchbar"
-            class="filters--input filters--input--ingredient"
+            class="filters--input background--ingredient"
             onkeyup="filterFunction('ingredient')"
             onfocus="displayOptions('ingredient')"
           />
           <div
             id="div-dropdown-ingredient"
-            class="filters--dropdown filters--dropdown--ingredient"
+            class="filters--dropdown background--ingredient"
           ></div>
         </div>
         <div
           id="device-dropdown-filter"
-          class="filters--dropdown--block filters--dropdown--block--device"
+          class="filters--dropdown--block"
         >
           <input
             type="text"
             placeholder="Appareil"
             id="device-searchbar"
-            class="filters--input filters--input--device"
+            class="filters--input background--device"
             onkeyup="filterFunction('device')"
             onfocus="displayOptions('device')"
           />
           <div
             id="div-dropdown-device"
-            class="filters--dropdown filters--dropdown--device"
+            class="filters--dropdown background--device"
           ></div>
         </div>
         <div
           id="utensil-dropdown-filter"
-          class="filters--dropdown--block filters--dropdown--block--utensil"
+          class="filters--dropdown--block"
         >
           <input
             type="text"
             placeholder="Ustensile"
             id="utensil-searchbar"
-            class="filters--input filters--input--utensil"
+            class="filters--input background--utensil"
             onkeyup="filterFunction('utensil')"
             onfocus="displayOptions('utensil')"
           />
           <div
             id="div-dropdown-utensil"
-            class="filters--dropdown filters--dropdown--utensil"
+            class="filters--dropdown background--utensil"
           ></div>
         </div>
       </aside>

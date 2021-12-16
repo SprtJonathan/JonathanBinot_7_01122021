@@ -30,8 +30,46 @@ header {
   padding: 0.5rem 1rem;
   text-align: center;
   border: none;
-  border-radius: 10px;
-  margin: 2rem;
+  border-radius: 5px;
+  margin: 2rem 2rem 2rem 0rem;
+  width: 500;
+}
+
+.filters--input::after {
+  content: "V";
+}
+
+.filters--input--expanded {
+  border-radius: 5px 5px 0px 0px;
+  width: 500px;
+}
+
+.filters--input--expanded--ingredient {
+  background-color: #3282f7;
+}
+
+.filters--input--expanded--device {
+  background-color: #68d9a4;
+}
+
+.filters--input--expanded--utensil {
+  background-color: #ed6454;
+}
+
+.filters--input--expanded::after {
+  content: "^";
+}
+
+.filters--input--ingredient {
+  background-color: #3282f7;
+}
+
+.filters--input--device {
+  background-color: #68d9a4;
+}
+
+.filters--input--utensil {
+  background-color: #ed6454;
 }
 
 .filters--input:focus {
@@ -40,17 +78,31 @@ header {
 
 .filters--dropdown {
   display: none;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  min-width: 230px;
-  border-radius: 10px;
-  z-index: 1;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-line-pack: distribute;
+      align-content: space-around;
+  width: 500px;
+  border-radius: 0px 0px 10px 10px;
+  z-index: 10;
+  padding: 1rem;
+  margin-top: -2rem;
+}
+
+.filters--dropdown--element {
+  color: white;
+  font-weight: 600;
+  margin: 1rem;
+  width: 25%;
 }
 
 .filters--dropdown--element:hover {
   background-color: white;
+  color: black;
 }
 
 .filters--dropdown--aside {
@@ -71,24 +123,10 @@ header {
   margin: 2rem;
   padding: 0px;
   max-height: 300px;
-  overflow-y: auto;
-}
-
-.filters--dropdown--block--ingredient {
-  background-color: #3282f7;
-}
-
-.filters--dropdown--block--device {
-  background-color: #68d9a4;
-}
-
-.filters--dropdown--block--utensil {
-  background-color: #ed6454;
 }
 
 .filters--dropdown--selection {
   display: block;
-  color: black;
   padding: 12px 16px;
   text-decoration: none;
 }
@@ -99,6 +137,24 @@ header {
 
 .filters--dropdown--selection:hover {
   background-color: #f1f1f1;
+}
+
+.filters--selection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  color: white;
+  padding: 0.2rem;
+  border-radius: 5px;
+  margin: 1rem;
+}
+
+.filters--selection--text {
+  height: auto;
 }
 
 .recipe--section {
@@ -204,6 +260,18 @@ header {
   font-size: 0.85rem;
   width: 60%;
   overflow: hidden;
+}
+
+.background--ingredient {
+  background-color: #3282f7;
+}
+
+.background--device {
+  background-color: #68d9a4;
+}
+
+.background--utensil {
+  background-color: #ed6454;
 }
 
 /*!
