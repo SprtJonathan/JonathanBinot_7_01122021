@@ -17,53 +17,51 @@ header {
   width: 90%;
   border: none;
   height: 3rem;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 /* Dropdown Content (Hidden by Default) */
 .filters {
   &--input {
-    color: black;
-    box-sizing: border-box;
-    background-position: 14px 12px;
-    background-repeat: no-repeat;
     font-size: 16px;
-    padding: 0.5rem 1rem;
+    font-weight: 600;
+    padding: 1rem;
     text-align: center;
     border: none;
+    margin: 0;
     border-radius: 5px;
-    margin: 2rem 2rem 2rem 0rem;
-    width: 500;
-    &::after {
-      content: "V";
+    width: 150px;
+    &::-webkit-input-placeholder {
+      color: white;
     }
     &--expanded {
       border-radius: 5px 5px 0px 0px;
-      width: 500px;
-      &--ingredient {
-        background-color: $blue-filter-color;
-      }
-      &--device {
-        background-color: $green-filter-color;
-      }
-      &--utensil {
-        background-color: $red-filter-color;
-      }
-      &::after {
-        content: "^";
+      border: 0px transparent;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      width: 400px;
+      &::-webkit-input-placeholder {
+        color: white;
       }
     }
-    &--ingredient {
-      background-color: $blue-filter-color;
+    &--block {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      align-content: space-around;
+      border-radius: 5px;
+      margin: 2rem 2rem 2rem 0rem;
+      width: 500;
     }
-    &--device {
-      background-color: $green-filter-color;
-    }
-    &--utensil {
-      background-color: $red-filter-color;
-    }
-    &:focus {
-      outline: 3px solid #ddd;
+    &--chevron {
+      display: block;
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      width: 20%;
+      margin: 1rem;
     }
   }
   &--dropdown {
@@ -90,10 +88,11 @@ header {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
+      margin: auto;
       width: 90%;
     }
     &--block {
-      margin: 2rem;
+      z-index: 10;
       padding: 0px;
       max-height: 300px;
     }
@@ -120,6 +119,10 @@ header {
     &--text {
       height: auto;
     }
+  }
+  &--selected {
+    width: 90%;
+    margin: auto;
   }
 }
 

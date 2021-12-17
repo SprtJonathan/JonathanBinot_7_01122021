@@ -29,54 +29,105 @@
         placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette"
       />
 
-      <div id="chosen-filters" class="container-fluid"></div>
+      <div id="chosen-filters" class="filters--selected"></div>
       <aside class="filters--dropdown--aside">
-        <div
-          id="ingredient-dropdown-filter"
-          class="filters--dropdown--block"
-        >
-          <input
-            type="text"
-            placeholder="Ingrédient"
-            id="ingredient-searchbar"
-            class="filters--input background--ingredient"
-            onkeyup="filterFunction('ingredient')"
-            onfocus="displayOptions('ingredient')"
-          />
+        <div id="ingredient-dropdown-filter" class="filters--dropdown--block">
+          <div class="filters--input--block background--ingredient">
+            <input
+              type="text"
+              placeholder="Ingrédient"
+              id="ingredient-searchbar"
+              class="filters--input background--ingredient"
+              onkeyup="filterFunction('ingredient')"
+              onfocus="displayOptions('ingredient')"
+            />
+            <div
+              id="hide-ingredient"
+              class="filters--input--chevron"
+              onclick="hideOptions('ingredient')"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-chevron-down"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                />
+              </svg>
+            </div>
+          </div>
           <div
             id="div-dropdown-ingredient"
             class="filters--dropdown background--ingredient"
           ></div>
         </div>
-        <div
-          id="device-dropdown-filter"
-          class="filters--dropdown--block"
-        >
-          <input
-            type="text"
-            placeholder="Appareil"
-            id="device-searchbar"
-            class="filters--input background--device"
-            onkeyup="filterFunction('device')"
-            onfocus="displayOptions('device')"
-          />
+        <div id="device-dropdown-filter" class="filters--dropdown--block">
+          <div class="filters--input--block background--device">
+            <input
+              type="text"
+              placeholder="Appareil"
+              id="device-searchbar"
+              class="filters--input background--device"
+              onkeyup="filterFunction('device')"
+              onfocus="displayOptions('device')"
+            />
+            <div
+              id="hide-device"
+              class="filters--input--chevron"
+              onclick="hideOptions('device')"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-chevron-down"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                />
+              </svg>
+            </div>
+          </div>
           <div
             id="div-dropdown-device"
             class="filters--dropdown background--device"
           ></div>
         </div>
-        <div
-          id="utensil-dropdown-filter"
-          class="filters--dropdown--block"
-        >
-          <input
-            type="text"
-            placeholder="Ustensile"
-            id="utensil-searchbar"
-            class="filters--input background--utensil"
-            onkeyup="filterFunction('utensil')"
-            onfocus="displayOptions('utensil')"
-          />
+        <div id="utensil-dropdown-filter" class="filters--dropdown--block">
+          <div class="filters--input--block background--utensil">
+            <input
+              type="text"
+              placeholder="Ustensile"
+              id="utensil-searchbar"
+              class="filters--input background--utensil"
+              onkeyup="filterFunction('utensil')"
+              onfocus="displayOptions('utensil')"
+            />
+            <div
+              id="hide-utensil"
+              class="filters--input--chevron"
+              onclick="hideOptions('utensil')"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-chevron-down"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                />
+              </svg>
+            </div>
+          </div>
           <div
             id="div-dropdown-utensil"
             class="filters--dropdown background--utensil"

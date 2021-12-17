@@ -17,9 +17,13 @@ function displayOptions(param) {
   let dropdownDiv = document.getElementById("div-dropdown-" + param);
   dropdownDiv.style.display = "flex";
 
+  let hideButton = document.getElementById("hide-" + param);
+  hideButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+</svg>`;
+
   let dropdownInputDiv = document.getElementById(param + "-searchbar");
-  dropdownInputDiv.className =
-    "filters--input--expanded filters--input--expanded--" + param;
+  dropdownInputDiv.className = "filters--input--expanded background--" + param;
 }
 
 // Fonction permettant de cacher les options des filtres
@@ -27,8 +31,13 @@ function hideOptions(param) {
   let dropdownDiv = document.getElementById("div-dropdown-" + param);
   dropdownDiv.style.display = "none";
 
+  let hideButton = document.getElementById("hide-" + param);
+  hideButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+</svg>`;
+
   let dropdownInputDiv = document.getElementById(param + "-searchbar");
-  dropdownInputDiv.className = "filters--input filters--input--" + param;
+  dropdownInputDiv.className = "filters--input background--" + param;
 }
 
 // Récupération des données des recettes
@@ -186,30 +195,21 @@ function showIngredients() {
 }
 
 let globalFilterTab = []; // Tableau servant à contenir les filtres sélectionnés
-/*globalFilterTab[0] = []; // Tableau servant à contenir les filtres sélectionnés
-globalFilterTab[1] = []; // Tableau servant à contenir les filtres sélectionnés
-globalFilterTab[2] = []; // Tableau servant à contenir les filtres sélectionnés
-*/
 
-/*function filterSearch(filter, type) {
+function filterSearch(filter, type) {
   if (filter.target.id.includes(type + "-id-")) {
     let filterSearchBar = document.getElementById(type + "-searchbar");
     filterSearchBar.value = "";
-    let arrayNum = 0;
-    if (type == "ingredient") {
-      arrayNum = 0;
-    }
-    if (type == "device") {
-      arrayNum = 1;
-    }
-    if (type == "utensil") {
-      arrayNum = 2;
-    }
-    console.log(globalFilterTab.arrayNum);
+    console.log(globalFilterTab);
+    let arrayToInsert = [filter.target.innerText, type];
     let chosenFilters = document.getElementById("chosen-filters");
-    if (!globalFilterTab[arrayNum].includes(filter.target.innerText)) {
-      globalFilterTab[arrayNum].push(filter.target.innerText);
-      console.log(globalFilterTab[arrayNum]);
+    let alreadySelected = false;
+    for (i = 0; i < globalFilterTab.length; i++) {
+      alreadySelected = globalFilterTab[i][0].includes(filter.target.innerText);
+    }
+    if (!alreadySelected) {
+      globalFilterTab.push(arrayToInsert);
+      console.log(globalFilterTab);
       createFiltersHTMLCode(globalFilterTab, chosenFilters, type);
     }
     if (globalFilterTab.length > 0) {
@@ -219,9 +219,9 @@ globalFilterTab[2] = []; // Tableau servant à contenir les filtres sélectionn�
     }
     searchRecipe(filter.target.innerText);
   }
-}*/
+}
 
-function filterSearch(filter, type) {
+/*function filterSearch(filter, type) {
   if (filter.target.id.includes(type + "-id-")) {
     let filterSearchBar = document.getElementById(type + "-searchbar");
     filterSearchBar.value = "";
@@ -240,13 +240,14 @@ function filterSearch(filter, type) {
     }
     searchRecipe(filter.target.innerText);
   }
-}
+}*/
 
 function removeFilter(value, type) {
-  let index = globalFilterTab.indexOf(value);
+  let index = globalFilterTab.indexOf([value, type]);
   globalFilterTab.splice(index, 1);
   let chosenFilters = document.getElementById("chosen-filters");
-  chosenFilters.innerHTML = globalFilterTab;
+  createFiltersHTMLCode(globalFilterTab, chosenFilters, type);
+  searchRecipe("");
 }
 
 function showDevices() {

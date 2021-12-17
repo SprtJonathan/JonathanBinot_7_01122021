@@ -16,64 +16,65 @@ header {
   width: 90%;
   border: none;
   height: 3rem;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 /* Dropdown Content (Hidden by Default) */
 .filters--input {
-  color: black;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  background-position: 14px 12px;
-  background-repeat: no-repeat;
   font-size: 16px;
-  padding: 0.5rem 1rem;
+  font-weight: 600;
+  padding: 1rem;
   text-align: center;
   border: none;
+  margin: 0;
+  border-radius: 5px;
+  width: 150px;
+}
+
+.filters--input::-webkit-input-placeholder {
+  color: white;
+}
+
+.filters--input--expanded {
+  border-radius: 5px 5px 0px 0px;
+  border: 0px transparent;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  width: 400px;
+}
+
+.filters--input--expanded::-webkit-input-placeholder {
+  color: white;
+}
+
+.filters--input--block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: distribute;
+      align-content: space-around;
   border-radius: 5px;
   margin: 2rem 2rem 2rem 0rem;
   width: 500;
 }
 
-.filters--input::after {
-  content: "V";
-}
-
-.filters--input--expanded {
-  border-radius: 5px 5px 0px 0px;
-  width: 500px;
-}
-
-.filters--input--expanded--ingredient {
-  background-color: #3282f7;
-}
-
-.filters--input--expanded--device {
-  background-color: #68d9a4;
-}
-
-.filters--input--expanded--utensil {
-  background-color: #ed6454;
-}
-
-.filters--input--expanded::after {
-  content: "^";
-}
-
-.filters--input--ingredient {
-  background-color: #3282f7;
-}
-
-.filters--input--device {
-  background-color: #68d9a4;
-}
-
-.filters--input--utensil {
-  background-color: #ed6454;
-}
-
-.filters--input:focus {
-  outline: 3px solid #ddd;
+.filters--input--chevron {
+  display: block;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  width: 20%;
+  margin: 1rem;
 }
 
 .filters--dropdown {
@@ -116,11 +117,12 @@ header {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
+  margin: auto;
   width: 90%;
 }
 
 .filters--dropdown--block {
-  margin: 2rem;
+  z-index: 10;
   padding: 0px;
   max-height: 300px;
 }
@@ -155,6 +157,11 @@ header {
 
 .filters--selection--text {
   height: auto;
+}
+
+.filters--selected {
+  width: 90%;
+  margin: auto;
 }
 
 .recipe--section {
