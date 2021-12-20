@@ -29,6 +29,8 @@ header {
   margin: 0;
   border-radius: 5px;
   width: 150px;
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
 }
 
 .filters--input::-webkit-input-placeholder {
@@ -42,6 +44,8 @@ header {
   font-weight: 600;
   padding: 0.5rem 1rem;
   width: 400px;
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
 }
 
 .filters--input--expanded::-webkit-input-placeholder {
@@ -66,6 +70,8 @@ header {
   border-radius: 5px;
   margin: 2rem 2rem 2rem 0rem;
   width: 500;
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
 }
 
 .filters--input--chevron {
@@ -74,6 +80,18 @@ header {
   text-align: center;
   width: 20%;
   margin: 1rem;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
+}
+
+.filters--input--chevron:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
 }
 
 .filters--dropdown {

@@ -21,6 +21,8 @@ function displayOptions(param) {
   hideButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
 </svg>`;
+  hideButton.removeAttribute("onclick");
+  hideButton.setAttribute("onclick", "hideOptions('" + param + "')");
 
   let dropdownInputDiv = document.getElementById(param + "-searchbar");
   dropdownInputDiv.className = "filters--input--expanded background--" + param;
@@ -35,6 +37,8 @@ function hideOptions(param) {
   hideButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
 </svg>`;
+  hideButton.removeAttribute("onclick");
+  hideButton.setAttribute("onclick", "displayOptions('" + param + "')");
 
   let dropdownInputDiv = document.getElementById(param + "-searchbar");
   dropdownInputDiv.className = "filters--input background--" + param;
@@ -49,7 +53,7 @@ function fetchData() {
     .then((response) => response.json())
     .then(function getRecipeInfo(data) {
       recipeList = [];
-      console.log(data);
+      //console.log(data);
       displayRecipes(data, recipeList);
     });
 }
@@ -76,65 +80,57 @@ function displayRecipes(data, reciepeArray) {
 }
 
 searchBar.addEventListener("change", (event) => {
-  searchRecipe(searchBar.value);
+  searchRecipe(searchBar.value, globalFilterTab);
 }); // Lorsqu'un mot est écrit dans la barre de recherche, on déclenche la fonction de recherche en passant en paramètre la valeur de la recherche
 
 // Fonction permettant d'effectuer une recherche
-function searchRecipe(searchValue) {
-  console.log("Recherche : " + searchValue); // Mot recherché
-  // console.log(recipeList); // Tableau contenant les recettes
+function searchRecipe(searchValue, tagsArray) {
+  // console.log("Recherche : " + searchValue + " " + tagsArray); // Mot recherché
   let searchResults = []; // Tableau contenant les résultats de la recherche
-  // Si la valeur du champ de recherche est du texte
+
+  let searchTags = [];
+
   if (searchValue !== "") {
+    // Si la valeur du champ de recherche n'est pas vide
+    searchTags.push(searchValue);
+  }
+  for (i = 0; i < tagsArray.length; i++) {
+    // On ajoute les tags dans le tableau de recherche
+    let sameValue = false; // Booléen permettant de ne pas avoir de doublons dans le tableau des tags de recherche
+    if (searchTags[0] !== undefined) {
+      // Si la valeur initiale du tableau n'est pas non définie
+      if (
+        // On vérifie qu'elle ne soit pas égale à un des membres du tableau
+        normalizeString(searchTags[0]) != normalizeString(tagsArray[i][0])
+      ) {
+        sameValue = false; // Si aucune valeure n'apparaît en double, alors on renvoie faux
+      } else {
+        sameValue = true; // Sinon on renvoie vrai
+      }
+    }
+    if (!sameValue) {
+      // Si aucune valeur n'apparaît deux fois
+      searchTags.push(tagsArray[i][0]); // On ajoute les valeurs du tableau de filtres dans le tableau des tags de recherche
+    }
+  }
+
+  console.log(searchTags);
+
+  // Si la valeur du champ de recherche n'est pas vide
+  if (searchTags !== "") {
     let searchData = recipeList.filter(
       // On filtre le tableau contenant la liste des recettes
       (recipeList) =>
-        recipeList.name // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
-          .toLowerCase() // Transformation de tous les caractères en minuscule
-          .normalize("NFD") // Normalisation des caractères (Normalization Form Canonical Decomposition)
-          .replace(/[\u0300-\u036f]/g, "") // Remplacement des accents par les lettres sans accents de manière à éviter les fautes
-          .includes(
-            searchValue
-              .toLowerCase() // Même démarche pour le texte entré dans le champ de recherche
-              .normalize("NFD") // Afin de faire correspondre les mots et de trouver plus facilement les recettes voulues
-              .replace(/[\u0300-\u036f]/g, "")
-          ) ||
-        recipeList.description // Pour les recettes
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .includes(
-            searchValue
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-          ) ||
+        normalizeString(recipeList.name) // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
+          .includes(normalizeString(searchValue)) ||
+        normalizeString(recipeList.description) // Pour les recettes
+          .includes(normalizeString(searchValue)) ||
         recipeList.ustensils // Pour les noms des ustensiles
-          .map((ustensils) =>
-            ustensils
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-          )
-          .includes(
-            searchValue
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-          ) ||
+          .map((ustensils) => normalizeString(ustensils))
+          .includes(normalizeString(searchValue)) ||
         recipeList.ingredients // Pour les noms des ingrédients
-          .map((ingredients) =>
-            ingredients.ingredient
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-          )
-          .includes(
-            searchValue
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-          )
+          .map((ingredients) => normalizeString(ingredients.ingredient))
+          .includes(normalizeString(searchValue))
     );
     if (searchData.length == 0) {
       // Si aucun objet n'est ajouté au tableau / Aucun résultat ne resort, alors on affiche le message
@@ -148,6 +144,7 @@ function searchRecipe(searchValue) {
   }
 }
 
+// Fonction permettant d'afficher tous les ingrédients dans la liste des tags en les récupérant dynamiquement dans le JSON
 function showIngredients() {
   let divIngredients = document.getElementById("div-dropdown-ingredient");
   let ingredientsTab = [];
@@ -182,10 +179,10 @@ function showIngredients() {
       for (let i = 0; i < ingredientsTab.length; i++) {
         divIngredients.innerHTML += `<span id="ingredient-id-${i}" class="filters--dropdown--element select-ingredient">${ingredientsTab[i]}</span>`;
       }
-      console.log(ingredientsTab);
+      //console.log(ingredientsTab);
 
       filterDropdownSelect = document.querySelectorAll(".select-ingredient");
-      console.log(filterDropdownSelect);
+      //console.log(filterDropdownSelect);
       filterDropdownSelect.forEach((el) =>
         el.addEventListener("click", (event) => {
           filterSearch(event, "ingredient");
@@ -194,62 +191,7 @@ function showIngredients() {
     });
 }
 
-let globalFilterTab = []; // Tableau servant à contenir les filtres sélectionnés
-
-function filterSearch(filter, type) {
-  if (filter.target.id.includes(type + "-id-")) {
-    let filterSearchBar = document.getElementById(type + "-searchbar");
-    filterSearchBar.value = "";
-    console.log(globalFilterTab);
-    let arrayToInsert = [filter.target.innerText, type];
-    let chosenFilters = document.getElementById("chosen-filters");
-    let alreadySelected = false;
-    for (i = 0; i < globalFilterTab.length; i++) {
-      alreadySelected = globalFilterTab[i][0].includes(filter.target.innerText);
-    }
-    if (!alreadySelected) {
-      globalFilterTab.push(arrayToInsert);
-      console.log(globalFilterTab);
-      createFiltersHTMLCode(globalFilterTab, chosenFilters, type);
-    }
-    if (globalFilterTab.length > 0) {
-      chosenFilters.style.display = "flex";
-    } else {
-      chosenFilters.style.display = "none";
-    }
-    searchRecipe(filter.target.innerText);
-  }
-}
-
-/*function filterSearch(filter, type) {
-  if (filter.target.id.includes(type + "-id-")) {
-    let filterSearchBar = document.getElementById(type + "-searchbar");
-    filterSearchBar.value = "";
-    let chosenFilters = document.getElementById("chosen-filters");
-    if (
-      !globalFilterTab.includes(filtersHTMLCode(filter.target.innerText, type))
-    ) {
-      globalFilterTab.push(filtersHTMLCode(filter.target.innerText, type));
-      console.log(globalFilterTab);
-      chosenFilters.innerHTML = globalFilterTab;
-    }
-    if (globalFilterTab.length > 0) {
-      chosenFilters.style.display = "flex";
-    } else {
-      chosenFilters.style.display = "none";
-    }
-    searchRecipe(filter.target.innerText);
-  }
-}*/
-
-function removeFilter(value, type) {
-  let index = globalFilterTab.indexOf([value, type]);
-  globalFilterTab.splice(index, 1);
-  let chosenFilters = document.getElementById("chosen-filters");
-  createFiltersHTMLCode(globalFilterTab, chosenFilters, type);
-  searchRecipe("");
-}
-
+// Fonction permettant d'afficher tous les appareils dans la liste des tags en les récupérant dynamiquement dans le JSON
 function showDevices() {
   let divDevices = document.getElementById("div-dropdown-device");
   let devicesTab = [];
@@ -280,7 +222,7 @@ function showDevices() {
       }
 
       filterDropdownSelect = document.querySelectorAll(".select-device");
-      console.log(filterDropdownSelect);
+      //console.log(filterDropdownSelect);
       filterDropdownSelect.forEach((el) =>
         el.addEventListener("click", (event) => {
           filterSearch(event, "device");
@@ -289,6 +231,7 @@ function showDevices() {
     });
 }
 
+// Fonction permettant d'afficher tous les ustensiles dans la liste des tags en les récupérant dynamiquement dans le JSON
 function showUtensils() {
   let divUtensils = document.getElementById("div-dropdown-utensil");
   let utensilsTab = [];
@@ -320,7 +263,7 @@ function showUtensils() {
         divUtensils.innerHTML += `<span id="utensil-id-${i}" class="filters--dropdown--element select-utensil">${utensilsTab[i]}</span>`;
       }
       filterDropdownSelect = document.querySelectorAll(".select-utensil");
-      console.log(filterDropdownSelect);
+      //console.log(filterDropdownSelect);
       filterDropdownSelect.forEach((el) =>
         el.addEventListener("click", (event) => {
           filterSearch(event, "utensil");
@@ -329,7 +272,44 @@ function showUtensils() {
     });
 }
 
-let searchBarIngredients = document.getElementById("ingredient-searchbar");
+let globalFilterTab = []; // Tableau servant à contenir les filtres sélectionnés
+
+// Fonction permettant de filtrer les recettes par tags
+function filterSearch(filter, type) {
+  if (filter.target.id.includes(type + "-id-")) {
+    let filterSearchBar = document.getElementById(type + "-searchbar");
+    filterSearchBar.value = "";
+    console.log(globalFilterTab);
+    let arrayToInsert = [filter.target.innerText, type];
+    let chosenFilters = document.getElementById("chosen-filters");
+    let alreadySelected = false;
+    for (i = 0; i < globalFilterTab.length; i++) {
+      alreadySelected = globalFilterTab[i][0].includes(filter.target.innerText);
+    }
+    if (!alreadySelected) {
+      globalFilterTab.push(arrayToInsert);
+      //console.log(globalFilterTab);
+      createFiltersHTMLCode(globalFilterTab, chosenFilters, type);
+    }
+    if (globalFilterTab.length > 0) {
+      chosenFilters.style.display = "flex";
+    } else {
+      chosenFilters.style.display = "none";
+    }
+    searchRecipe(searchBar.value, globalFilterTab);
+  }
+}
+
+// Fonction permettant de retirer un tag de la sélection
+function removeFilter(value, type) {
+  let index = globalFilterTab.indexOf([value, type]);
+  globalFilterTab.splice(index, 1);
+  let chosenFilters = document.getElementById("chosen-filters");
+  createFiltersHTMLCode(globalFilterTab, chosenFilters, type);
+  searchRecipe(searchBar.value, globalFilterTab);
+}
+
+let searchBarIngredients = document.getElementById("ingredient-searchbar"); // Barre de recherche
 let searchBarDevices = document.getElementById("device-searchbar");
 let searchBarUtensils = document.getElementById("utensil-searchbar");
 searchBarIngredients.addEventListener("keydown", showIngredients);
