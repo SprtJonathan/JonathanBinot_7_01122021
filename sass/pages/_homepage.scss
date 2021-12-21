@@ -12,12 +12,30 @@ header {
 
 .search--searchbar {
   display: block;
-  margin: 1rem auto;
   background-color: #e7e7e7;
   width: 90%;
   border: none;
-  height: 3rem;
-  border-radius: 5px;
+  height: 100%;
+  &--button {
+    transform: scale(1);
+    transition: all 200ms;
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.2);
+      transition: all 200ms;
+    }
+  }
+  &--block {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin: 1rem auto;
+    height: 3rem;
+    background-color: #e7e7e7;
+    border-radius: 5px;
+    justify-content: space-around;
+    align-items: center;
+  }
 }
 
 /* Dropdown Content (Hidden by Default) */

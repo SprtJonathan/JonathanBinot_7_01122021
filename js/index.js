@@ -4,6 +4,7 @@ const searchBar = document.getElementById("searchbar");
 
 let recipeList = [];
 let filterDropdownSelect;
+let globalFilterTab = []; // Tableau servant à contenir les filtres sélectionnés
 
 fetchData();
 
@@ -18,9 +19,7 @@ function displayOptions(param) {
   dropdownDiv.style.display = "flex";
 
   let hideButton = document.getElementById("hide-" + param);
-  hideButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
-</svg>`;
+  hideButton.innerHTML = `<i class="bi bi-chevron-up"></i>`;
   hideButton.removeAttribute("onclick");
   hideButton.setAttribute("onclick", "hideOptions('" + param + "')");
 
@@ -34,9 +33,7 @@ function hideOptions(param) {
   dropdownDiv.style.display = "none";
 
   let hideButton = document.getElementById("hide-" + param);
-  hideButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-</svg>`;
+  hideButton.innerHTML = `<i class="bi bi-chevron-down"></i>`;
   hideButton.removeAttribute("onclick");
   hideButton.setAttribute("onclick", "displayOptions('" + param + "')");
 
@@ -83,25 +80,31 @@ searchBar.addEventListener("change", (event) => {
   searchRecipe(searchBar.value, globalFilterTab);
 }); // Lorsqu'un mot est écrit dans la barre de recherche, on déclenche la fonction de recherche en passant en paramètre la valeur de la recherche
 
-// Fonction permettant d'effectuer une recherche
+document
+  .getElementById("searchbar-button")
+  .addEventListener("click", searchRecipe(searchBar.value, globalFilterTab));
+
+///////////////////////////////////////////////////////
+//// Fonction permettant d'effectuer une recherche ////
+///////////////////////////////////////////////////////
+
 function searchRecipe(searchValue, tagsArray) {
   // console.log("Recherche : " + searchValue + " " + tagsArray); // Mot recherché
   let searchResults = []; // Tableau contenant les résultats de la recherche
 
   let searchTags = [];
 
-  if (searchValue !== "") {
-    // Si la valeur du champ de recherche n'est pas vide
-    searchTags.push(searchValue);
-  }
-  for (i = 0; i < tagsArray.length; i++) {
+  searchTags[0] = { name: searchValue, type: "searchbar" };
+
+  for (i = 1; i <= tagsArray.length; i++) {
     // On ajoute les tags dans le tableau de recherche
     let sameValue = false; // Booléen permettant de ne pas avoir de doublons dans le tableau des tags de recherche
     if (searchTags[0] !== undefined) {
       // Si la valeur initiale du tableau n'est pas non définie
       if (
         // On vérifie qu'elle ne soit pas égale à un des membres du tableau
-        normalizeString(searchTags[0]) != normalizeString(tagsArray[i][0])
+        normalizeString(searchTags[0].name) !=
+        normalizeString(tagsArray[i - 1].name)
       ) {
         sameValue = false; // Si aucune valeure n'apparaît en double, alors on renvoie faux
       } else {
@@ -110,28 +113,34 @@ function searchRecipe(searchValue, tagsArray) {
     }
     if (!sameValue) {
       // Si aucune valeur n'apparaît deux fois
-      searchTags.push(tagsArray[i][0]); // On ajoute les valeurs du tableau de filtres dans le tableau des tags de recherche
+      searchTags.push(tagsArray[i - 1]); // On ajoute les valeurs du tableau de filtres dans le tableau des tags de recherche
     }
   }
 
   console.log(searchTags);
 
+  function verifyTag(array, value) {
+    return normalizeString(array).includes(normalizeString(value)); // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
+  }
+
   // Si la valeur du champ de recherche n'est pas vide
   if (searchTags !== "") {
-    let searchData = recipeList.filter(
+    let searchData = [];
+
+    searchData = recipeList.filter(
       // On filtre le tableau contenant la liste des recettes
-      (recipeList) =>
-        normalizeString(recipeList.name) // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
-          .includes(normalizeString(searchValue)) ||
-        normalizeString(recipeList.description) // Pour les recettes
-          .includes(normalizeString(searchValue)) ||
-        recipeList.ustensils // Pour les noms des ustensiles
-          .map((ustensils) => normalizeString(ustensils))
-          .includes(normalizeString(searchValue)) ||
-        recipeList.ingredients // Pour les noms des ingrédients
-          .map((ingredients) => normalizeString(ingredients.ingredient))
-          .includes(normalizeString(searchValue))
+      (recipeList) => {
+        verifyTag(recipeList.name, searchValue) || // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
+          verifyTag(recipeList.description, searchValue) || // Pour les recettes
+          recipeList.ustensils // Pour les noms des ustensiles
+            .map((ustensils) => normalizeString(ustensils))
+            .includes(normalizeString(searchValue)) ||
+          recipeList.ingredients // Pour les noms des ingrédients
+            .map((ingredients) => normalizeString(ingredients.ingredient))
+            .includes(normalizeString(searchValue));
+      }
     );
+
     if (searchData.length == 0) {
       // Si aucun objet n'est ajouté au tableau / Aucun résultat ne resort, alors on affiche le message
       recipeSection.innerHTML = `Aucun résultat trouvé pour "${searchValue}"`;
@@ -143,6 +152,10 @@ function searchRecipe(searchValue, tagsArray) {
     fetchData();
   }
 }
+
+//////////////////////////////////////////////////////
+////// Fonctions permettant d'afficher les tags //////
+//////////////////////////////////////////////////////
 
 // Fonction permettant d'afficher tous les ingrédients dans la liste des tags en les récupérant dynamiquement dans le JSON
 function showIngredients() {
@@ -272,7 +285,9 @@ function showUtensils() {
     });
 }
 
-let globalFilterTab = []; // Tableau servant à contenir les filtres sélectionnés
+//////////////////////////////////////////////////////////
+// Fonction permettant de filtrer les recettes par tags //
+//////////////////////////////////////////////////////////
 
 // Fonction permettant de filtrer les recettes par tags
 function filterSearch(filter, type) {
@@ -280,14 +295,14 @@ function filterSearch(filter, type) {
     let filterSearchBar = document.getElementById(type + "-searchbar");
     filterSearchBar.value = "";
     console.log(globalFilterTab);
-    let arrayToInsert = [filter.target.innerText, type];
+    let tagToInsert = { name: filter.target.innerText, type: type };
     let chosenFilters = document.getElementById("chosen-filters");
     let alreadySelected = false;
     for (i = 0; i < globalFilterTab.length; i++) {
-      alreadySelected = globalFilterTab[i][0].includes(filter.target.innerText);
+      alreadySelected += globalFilterTab[i].name.includes(tagToInsert.name); // Si un des membres du tableau contient déjà le tag à ajouter, alors on ne l'ajoute pas
     }
     if (!alreadySelected) {
-      globalFilterTab.push(arrayToInsert);
+      globalFilterTab.push(tagToInsert);
       //console.log(globalFilterTab);
       createFiltersHTMLCode(globalFilterTab, chosenFilters, type);
     }
