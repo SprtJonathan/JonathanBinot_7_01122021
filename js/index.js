@@ -119,35 +119,49 @@ function searchRecipe(searchValue, tagsArray) {
 
   console.log(searchTags);
 
-  function verifyTag(array, value) {
-    return normalizeString(array).includes(normalizeString(value)); // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
-  }
-
   // Si la valeur du champ de recherche n'est pas vide
   if (searchTags !== "") {
-    let searchData = [];
-
-    searchData = recipeList.filter(
+    let searchbarResults = recipeList.filter(
       // On filtre le tableau contenant la liste des recettes
-      (recipeList) => {
+      (recipeList) =>
         verifyTag(recipeList.name, searchValue) || // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
-          verifyTag(recipeList.description, searchValue) || // Pour les recettes
-          recipeList.ustensils // Pour les noms des ustensiles
-            .map((ustensils) => normalizeString(ustensils))
-            .includes(normalizeString(searchValue)) ||
-          recipeList.ingredients // Pour les noms des ingrédients
-            .map((ingredients) => normalizeString(ingredients.ingredient))
-            .includes(normalizeString(searchValue));
-      }
+        verifyTag(recipeList.description, searchValue) || // Pour les recettes
+        recipeList.ustensils // Pour les noms des ustensiles
+          .map((ustensils) => normalizeString(ustensils))
+          .includes(normalizeString(searchValue)) ||
+        recipeList.ingredients // Pour les noms des ingrédients
+          .map((ingredients) => normalizeString(ingredients.ingredient))
+          .includes(normalizeString(searchValue))
     );
 
-    if (searchData.length == 0) {
+    let = selectedIngredientsArray = [];
+    for (i = 1; i < searchTags.length; i++) {
+      if (searchTags[i].type == "ingredient") {
+        selectedIngredientsArray.push(searchTags[i].name);
+      }
+    }
+
+    console.log(selectedIngredientsArray);
+
+    let ingredientFilterResults = recipeList.filter((recipeList) => {
+      console.log(
+        selectedIngredientsArray.includes(recipeList.ingredients.ingredient)
+      );
+      return (
+        selectedIngredientsArray.indexOf(recipeList.ingredients.ingredient) !==
+        -1
+      );
+    });
+
+    console.log(ingredientFilterResults);
+
+    if (searchbarResults.length == 0) {
       // Si aucun objet n'est ajouté au tableau / Aucun résultat ne resort, alors on affiche le message
       recipeSection.innerHTML = `Aucun résultat trouvé pour "${searchValue}"`;
     } else {
-      displayRecipes(searchData, searchResults);
+      displayRecipes(searchbarResults, searchResults);
     }
-    console.log(searchData);
+    console.log(searchbarResults);
   } else {
     fetchData();
   }

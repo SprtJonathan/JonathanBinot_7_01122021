@@ -76,3 +76,8 @@ function normalizeString(string) {
     .normalize("NFD") // Normalisation des caractères (Normalization Form Canonical Decomposition)
     .replace(/[\u0300-\u036f]/g, "");
 }
+
+
+function verifyTag(array, value) {
+  return normalizeString(array).includes(normalizeString(value)); // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
+}
