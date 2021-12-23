@@ -126,40 +126,100 @@ function searchRecipe(searchValue, tagsArray) {
       (recipeList) =>
         verifyTag(recipeList.name, searchValue) || // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
         verifyTag(recipeList.description, searchValue) || // Pour les recettes
-        recipeList.ustensils // Pour les noms des ustensiles
-          .map((ustensils) => normalizeString(ustensils))
-          .includes(normalizeString(searchValue)) ||
-        recipeList.ingredients // Pour les noms des ingrédients
-          .map((ingredients) => normalizeString(ingredients.ingredient))
-          .includes(normalizeString(searchValue))
+        normalizeArray(
+          recipeList.ustensils // Pour les noms des ustensiles
+            .map((ustensils) => ustensils)
+        ).includes(normalizeString(searchValue)) ||
+        normalizeArray(
+          recipeList.ingredients // Pour les noms des ingrédients
+            .map((ingredients) => ingredients.ingredient)
+        ).includes(normalizeString(searchValue))
     );
 
-    let = selectedIngredientsArray = [];
+    let = selectedIngredientsArray = []; // Création d'un tableau contenant uniquement les ingrédients sélectionnés
+    let = selectedDevicesArray = []; // Création d'un tableau contenant uniquement les appareils sélectionnés
+    let = selectedUtensilsArray = []; // Création d'un tableau contenant uniquement les ustensiles sélectionnés
     for (i = 1; i < searchTags.length; i++) {
       if (searchTags[i].type == "ingredient") {
-        selectedIngredientsArray.push(searchTags[i].name);
+        selectedIngredientsArray.push(normalizeString(searchTags[i].name));
+      }
+      if (searchTags[i].type == "device") {
+        selectedDevicesArray.push(normalizeString(searchTags[i].name));
+      }
+      if (searchTags[i].type == "utensil") {
+        selectedUtensilsArray.push(normalizeString(searchTags[i].name));
       }
     }
 
-    console.log(selectedIngredientsArray);
+    // Filtrage des recettes par tags
 
-    let ingredientFilterResults = recipeList.filter((recipeList) => {
-      console.log(
-        selectedIngredientsArray.includes(recipeList.ingredients.ingredient)
-      );
-      return (
-        selectedIngredientsArray.indexOf(recipeList.ingredients.ingredient) !==
-        -1
-      );
+    function sortTags(tagArray, typeToSort, recipeArray) {
+      return recipeArray.filter((recipe) => {
+        let collection = [];
+
+        if (typeToSort == "ingredient") {
+          // Filtrage par ingrédient
+          collection = [].concat(
+            ...normalizeArray(
+              recipe.ingredients.map((ingredients) => ingredients.ingredient)
+            )
+          );
+        }
+        if (typeToSort == "device") {
+          // Filtrage par appareil
+          collection = normalizeString(recipe.appliance);
+        }
+        if (typeToSort == "utensil") {
+          // Filtrage par ustensile
+          collection = [].concat(
+            ...normalizeArray(recipe.ustensils.map((ustensils) => ustensils))
+          );
+        }
+
+        // console.log(collection);
+        // console.log(tagArray);
+        // console.log(tagArray.every((f) => collection.includes(f)));
+
+        return tagArray.every((f) => collection.includes(f));
+      });
+    }
+
+    let ingredientFilterResults = sortTags(
+      selectedIngredientsArray,
+      "ingredient",
+      recipeList
+    );
+    let deviceFilterResults = sortTags(
+      selectedDevicesArray,
+      "device",
+      recipeList
+    );
+    let utensilFilterResults = sortTags(
+      selectedUtensilsArray,
+      "utensil",
+      recipeList
+    );
+
+    let meltArray = [
+      searchbarResults,
+      ingredientFilterResults,
+      deviceFilterResults,
+      utensilFilterResults,
+    ];
+
+    let finalSearchResult = meltArray.shift().filter(function (v) {
+      return meltArray.every(function (a) {
+        return a.indexOf(v) !== -1;
+      });
     });
 
-    console.log(ingredientFilterResults);
+    console.log(finalSearchResult)
 
-    if (searchbarResults.length == 0) {
+    if (finalSearchResult.length == 0) {
       // Si aucun objet n'est ajouté au tableau / Aucun résultat ne resort, alors on affiche le message
       recipeSection.innerHTML = `Aucun résultat trouvé pour "${searchValue}"`;
     } else {
-      displayRecipes(searchbarResults, searchResults);
+      displayRecipes(finalSearchResult, searchResults);
     }
     console.log(searchbarResults);
   } else {
@@ -330,8 +390,7 @@ function filterSearch(filter, type) {
 }
 
 // Fonction permettant de retirer un tag de la sélection
-function removeFilter(value, type) {
-  let index = globalFilterTab.indexOf([value, type]);
+function removeFilter(index, type) {
   globalFilterTab.splice(index, 1);
   let chosenFilters = document.getElementById("chosen-filters");
   createFiltersHTMLCode(globalFilterTab, chosenFilters, type);

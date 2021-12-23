@@ -77,6 +77,18 @@ function normalizeString(string) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+function normalizeArray(array) {
+  let normalizedArray = [];
+  for (i = 0; i < array.length; i++) {
+    let normalizedString = array[i]
+      .toLowerCase() // Transformation de tous les caractères en minuscule
+      .normalize("NFD") // Normalisation des caractères (Normalization Form Canonical Decomposition)
+      .replace(/[\u0300-\u036f]/g, "");
+    normalizedArray.push(normalizedString);
+  }
+  // console.log(normalizedArray);
+  return normalizedArray;
+}
 
 function verifyTag(array, value) {
   return normalizeString(array).includes(normalizeString(value)); // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
