@@ -8,8 +8,6 @@ let globalFilterTab = []; // Tableau servant à contenir les filtres sélectionn
 
 fetchData();
 
-function filterFunction(param) {}
-
 // Fonction permettant d'afficher les options des filtres
 function displayOptions(param) {
   hideOptions("ingredient");
@@ -90,6 +88,10 @@ document
 
 function searchRecipe(searchValue, tagsArray) {
   // console.log("Recherche : " + searchValue + " " + tagsArray); // Mot recherché
+
+  let tz = performance.now(); // Variable permettant de mesurer la performance de la fonction au temps 0
+  let to; // Variable permettant de mesurer la performance de la fonction au temps 1
+
   let searchResults = []; // Tableau contenant les résultats de la recherche
 
   let searchTags = [];
@@ -136,9 +138,9 @@ function searchRecipe(searchValue, tagsArray) {
         ).includes(normalizeString(searchValue))
     );
 
-    let = selectedIngredientsArray = []; // Création d'un tableau contenant uniquement les ingrédients sélectionnés
-    let = selectedDevicesArray = []; // Création d'un tableau contenant uniquement les appareils sélectionnés
-    let = selectedUtensilsArray = []; // Création d'un tableau contenant uniquement les ustensiles sélectionnés
+    let selectedIngredientsArray = []; // Création d'un tableau contenant uniquement les ingrédients sélectionnés
+    let selectedDevicesArray = []; // Création d'un tableau contenant uniquement les appareils sélectionnés
+    let selectedUtensilsArray = []; // Création d'un tableau contenant uniquement les ustensiles sélectionnés
     for (i = 1; i < searchTags.length; i++) {
       if (searchTags[i].type == "ingredient") {
         selectedIngredientsArray.push(normalizeString(searchTags[i].name));
@@ -213,16 +215,23 @@ function searchRecipe(searchValue, tagsArray) {
       });
     });
 
-    console.log(finalSearchResult)
+    console.log(finalSearchResult);
 
     if (finalSearchResult.length == 0) {
       // Si aucun objet n'est ajouté au tableau / Aucun résultat ne resort, alors on affiche le message
       recipeSection.innerHTML = `Aucun résultat trouvé pour "${searchValue}"`;
     } else {
       displayRecipes(finalSearchResult, searchResults);
+
+      to = performance.now();
+      tf = to - tz;
+      console.log("temps d'exécution = " + tf); // Affichage de la durée d'execution de la fonction
     }
     console.log(searchbarResults);
   } else {
+    to = performance.now();
+    tf = to - tz;
+    console.log("temps d'exécution = " + tf); // Affichage de la durée d'execution de la fonction
     fetchData();
   }
 }
