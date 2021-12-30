@@ -126,25 +126,7 @@ function searchRecipe(searchValue, tagsArray) {
     let searchbarResults = searchItemsSearchbar(recipeList, searchValue);
 
     function searchItemsSearchbar(objectsList, value) {
-      let start = 0;
-      let end = objectsList.length - 1;
-      let foundObjects;
-
-      while (start <= end) {
-        let middle = Math.floor((start + end) / 2);
-
-        // NOTE the ".email" part added
-        if (verifyTag(objectsList[middle].name, value)) {
-          foundObjects += middle;
-        } else if (objectsList[middle].name < value) {
-          start = middle + 1;
-        } else {
-          end = middle - 1;
-        }
-      }
-      return -1;
-
-      /*      return objectsList.filter(
+      return objectsList.filter(
         // On filtre le tableau contenant la liste des recettes
         (objectsList) =>
           verifyTag(objectsList.name, value) || // Pour les noms de recettes, on cherche lesquels correspondent au mot entré dans la barre de recherche
@@ -157,7 +139,7 @@ function searchRecipe(searchValue, tagsArray) {
             objectsList.ingredients // Pour les noms des ingrédients
               .map((ingredients) => ingredients.ingredient)
           ).includes(normalizeString(value))
-      );*/
+      );
     }
 
     let selectedIngredientsArray = []; // Création d'un tableau contenant uniquement les ingrédients sélectionnés
