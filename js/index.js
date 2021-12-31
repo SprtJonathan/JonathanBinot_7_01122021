@@ -89,9 +89,6 @@ document
 function searchRecipe(searchValue, tagsArray) {
   // console.log("Recherche : " + searchValue + " " + tagsArray); // Mot recherché
 
-  let tz = performance.now(); // Variable permettant de mesurer la performance de la fonction au temps 0
-  let to; // Variable permettant de mesurer la performance de la fonction au temps 1
-
   let searchResults = []; // Tableau contenant les résultats de la recherche
 
   let searchTags = [];
@@ -123,7 +120,14 @@ function searchRecipe(searchValue, tagsArray) {
 
   // Si la valeur du champ de recherche n'est pas vide
   if (searchTags !== "") {
+    let t0 = performance.now(); // Variable permettant de mesurer la performance de la fonction au temps 0
+    let t1; // Variable permettant de mesurer la performance de la fonction au temps 1
+
     let searchbarResults = searchItemsSearchbar(recipeList, searchValue);
+
+    t1 = performance.now();
+    tf = t1 - t0;
+    console.log("temps d'exécution = " + tf + "ms"); // Affichage de la durée d'execution de la fonction
 
     function searchItemsSearchbar(objectsList, value) {
       return objectsList.filter(
@@ -226,16 +230,9 @@ function searchRecipe(searchValue, tagsArray) {
       recipeSection.innerHTML = `Aucun résultat trouvé pour "${searchValue}"`;
     } else {
       displayRecipes(finalSearchResult, searchResults);
-
-      to = performance.now();
-      tf = to - tz;
-      console.log("temps d'exécution = " + tf); // Affichage de la durée d'execution de la fonction
     }
     console.log(searchbarResults);
   } else {
-    to = performance.now();
-    tf = to - tz;
-    console.log("temps d'exécution = " + tf); // Affichage de la durée d'execution de la fonction
     fetchData();
   }
 }
