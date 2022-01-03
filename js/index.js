@@ -104,7 +104,7 @@ function searchRecipe(searchValue, tagsArray) {
         normalizeString(searchTags[0].name) !=
         normalizeString(tagsArray[i - 1].name)
       ) {
-        sameValue = false; // Si aucune valeure n'apparaît en double, alors on renvoie faux
+        sameValue = false; // Si aucune valeur n'apparaît en double, alors on renvoie faux
       } else {
         sameValue = true; // Sinon on renvoie vrai
       }
