@@ -1,15 +1,16 @@
-const dataLocation = "~/../public/data/recipes.json";
-const recipeSection = document.getElementById("results-section");
-const searchBar = document.getElementById("searchbar");
+const dataLocation = "~/../public/data/recipes.json"; // Variable permettant de localiser le fichier JSON afin de le récupérer et de le modifier plus facliement
+const recipeSection = document.getElementById("results-section"); // Section de la page dans laquelle seront affichées les recettes
+const searchBar = document.getElementById("searchbar"); // Barre de recherche principale
 
-let recipeList = [];
-let filterDropdownSelect;
+let recipeList = []; // Liste qui contiendra toutes les recettes présentes dans le fichier JSON
+let filterDropdownSelect; // Tous les éléments dropdown (les filtres)
 let globalFilterTab = []; // Tableau servant à contenir les filtres sélectionnés
 
 fetchData();
 
 // Fonction permettant d'afficher les options des filtres
 function displayOptions(param) {
+  // Fonction permettant d'afficher les menus déroulants des tags
   hideOptions("ingredient");
   hideOptions("device");
   hideOptions("utensil");
@@ -18,8 +19,8 @@ function displayOptions(param) {
 
   let hideButton = document.getElementById("hide-" + param);
   hideButton.innerHTML = `<i class="bi bi-chevron-up"></i>`;
-  hideButton.removeAttribute("onclick");
-  hideButton.setAttribute("onclick", "hideOptions('" + param + "')");
+  hideButton.removeAttribute("onclick"); // Suppression de l'attribut initial (dans ce cas, le onclick activant la fonction displayOptions())
+  hideButton.setAttribute("onclick", "hideOptions('" + param + "')"); // Création d'un nouvel attribut onclick appelant la fonction permettant de cacher les menus déroulants
 
   let dropdownInputDiv = document.getElementById(param + "-searchbar");
   dropdownInputDiv.className = "filters--input--expanded background--" + param;
@@ -32,8 +33,8 @@ function hideOptions(param) {
 
   let hideButton = document.getElementById("hide-" + param);
   hideButton.innerHTML = `<i class="bi bi-chevron-down"></i>`;
-  hideButton.removeAttribute("onclick");
-  hideButton.setAttribute("onclick", "displayOptions('" + param + "')");
+  hideButton.removeAttribute("onclick"); // Suppression de l'attribut initial (dans ce cas, le onclick activant la fonction hideOptions())
+  hideButton.setAttribute("onclick", "displayOptions('" + param + "')"); // Création d'un nouvel attribut onclick appelant la fonction permettant d'afficher les menus déroulants
 
   let dropdownInputDiv = document.getElementById(param + "-searchbar");
   dropdownInputDiv.className = "filters--input background--" + param;
@@ -41,6 +42,7 @@ function hideOptions(param) {
 
 // Récupération des données des recettes
 function fetchData() {
+  // Utilisation du fetch afin de pouvoir utiliser un JSON ou directement un lien vers le backend
   showIngredients();
   showDevices();
   showUtensils();
@@ -48,12 +50,13 @@ function fetchData() {
     .then((response) => response.json())
     .then(function getRecipeInfo(data) {
       recipeList = [];
-      //console.log(data);
+      //console.log(data); // Affichage des informations reçues
       displayRecipes(data, recipeList);
     });
 }
 
 function displayRecipes(data, reciepeArray) {
+  // Fonction permettant d'afficher les recettes
   recipeSection.innerHTML = "";
   for (const object of data) {
     const recipe = RecipeFactory.makeRecipe(
@@ -87,12 +90,12 @@ document
 ///////////////////////////////////////////////////////
 
 function searchRecipe(searchValue, tagsArray) {
-  // console.log("Recherche : " + searchValue + " " + tagsArray); // Mot recherché
+  // console.log("Recherche : " + searchValue + " " + tagsArray); // Mot recherché avec le tableau des tags de la recherche
   let searchResults = []; // Tableau contenant les résultats de la recherche
 
-  let searchTags = [];
+  let searchTags = []; // Tableau contenant tous les termes de la recherche
 
-  searchTags[0] = { name: searchValue, type: "searchbar" };
+  searchTags[0] = { name: searchValue, type: "searchbar" }; // La valeur de la barre de recherche est systématiquement placée au premier élément du tableau
 
   for (i = 1; i <= tagsArray.length; i++) {
     // On ajoute les tags dans le tableau de recherche
@@ -115,7 +118,7 @@ function searchRecipe(searchValue, tagsArray) {
     }
   }
 
-  console.log(searchTags);
+  //console.log(searchTags); // Affichage du tableau contenant les tags de recherche
 
   // Si la valeur du champ de recherche n'est pas vide
   if (searchTags !== "") {
@@ -129,6 +132,7 @@ function searchRecipe(searchValue, tagsArray) {
     console.log("temps d'exécution = " + tf + "ms"); // Affichage de la durée d'execution de la fonction
 
     function searchItemsSearchbar(objectsList, value) {
+      // Fonction de recherche sur la valeur du champ principal
       let resultsArray = [];
       for (let i = 0; i < objectsList.length; i++) {
         if (
@@ -166,9 +170,8 @@ function searchRecipe(searchValue, tagsArray) {
       }
     }
 
-    // Filtrage des recettes par tags
-
     function sortTags(tagArray, typeToSort, recipeArray) {
+      // Filtrage des recettes par tags
       return recipeArray.filter((recipe) => {
         let collection = [];
 
@@ -234,11 +237,11 @@ function searchRecipe(searchValue, tagsArray) {
       // Si aucun objet n'est ajouté au tableau / Aucun résultat ne resort, alors on affiche le message
       recipeSection.innerHTML = `Aucun résultat trouvé pour "${searchValue}"`;
     } else {
-      displayRecipes(finalSearchResult, searchResults);
+      displayRecipes(finalSearchResult, searchResults); // Affichage des résultats
     }
     console.log(searchbarResults);
   } else {
-    fetchData();
+    fetchData(); // Si aucun mot clé n'est présent (barre de recherche ou tags), alors on affiche toutes les recettes
   }
 }
 
@@ -412,9 +415,12 @@ function removeFilter(index, type) {
   searchRecipe(searchBar.value, globalFilterTab);
 }
 
-let searchBarIngredients = document.getElementById("ingredient-searchbar"); // Barre de recherche
+// Barre de recherche des tags
+let searchBarIngredients = document.getElementById("ingredient-searchbar");
 let searchBarDevices = document.getElementById("device-searchbar");
 let searchBarUtensils = document.getElementById("utensil-searchbar");
+
+// Affichage des nouveaux résultats de la recherche à chaque pression de touche
 searchBarIngredients.addEventListener("keydown", showIngredients);
 searchBarDevices.addEventListener("keydown", showDevices);
 searchBarUtensils.addEventListener("keydown", showUtensils);
