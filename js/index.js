@@ -24,6 +24,9 @@ function displayOptions(param) {
 
   let dropdownInputDiv = document.getElementById(param + "-searchbar");
   dropdownInputDiv.className = "filters--input--expanded background--" + param;
+
+  let dropdownInputBlock = document.getElementById(param + "-dropdown-filter");
+  dropdownInputBlock.className = "filters--dropdown--block--expanded";
 }
 
 // Fonction permettant de cacher les options des filtres
@@ -38,6 +41,9 @@ function hideOptions(param) {
 
   let dropdownInputDiv = document.getElementById(param + "-searchbar");
   dropdownInputDiv.className = "filters--input background--" + param;
+
+  let dropdownInputBlock = document.getElementById(param + "-dropdown-filter");
+  dropdownInputBlock.className = "filters--dropdown--block";
 }
 
 // Récupération des données des recettes
