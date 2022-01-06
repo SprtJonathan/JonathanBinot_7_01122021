@@ -2,6 +2,7 @@
 
 header {
   width: 100%;
+  margin: auto;
 }
 
 .logo {
@@ -48,8 +49,9 @@ header {
     border: none;
     margin: 0;
     border-radius: 5px;
-    width: 150px;
+    width: 90%;
     transition: all 200ms;
+    z-index: 5;
     &::-webkit-input-placeholder {
       color: white;
     }
@@ -59,7 +61,7 @@ header {
       font-size: 16px;
       font-weight: 600;
       padding: 0.5rem 1rem;
-      width: 452px;
+      width: 90%;
       transition: all 200ms;
       &::-webkit-input-placeholder {
         color: white;
@@ -72,9 +74,22 @@ header {
       align-items: center;
       align-content: space-around;
       border-radius: 5px;
-      margin: 2rem 2rem 2rem 0rem;
+      margin: 1rem auto;
       width: 500;
       transition: all 200ms;
+      z-index: 1;
+      &--expanded {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        align-content: space-around;
+        border-radius: 5px;
+        margin: 1rem auto;
+        width: 500;
+        transition: all 200ms;
+        z-index: 1;
+      }
     }
     &--chevron {
       display: block;
@@ -96,16 +111,16 @@ header {
     flex-direction: row;
     flex-wrap: wrap;
     align-content: space-around;
-    width: 500px;
+    width: 100%;
     border-radius: 0px 0px 10px 10px;
-    z-index: 10;
+    z-index: 100;
     padding: 1rem;
     margin-top: -2.2rem;
     &--element {
       color: white;
       font-weight: 600;
-      margin: 1rem;
-      width: 25%;
+      margin: 0.2rem;
+      width: 100%;
       &:hover {
         background-color: white;
         color: black;
@@ -113,7 +128,7 @@ header {
     }
     &--aside {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       justify-content: flex-start;
       margin: auto;
       width: 90%;
@@ -139,15 +154,21 @@ header {
   &--selection {
     display: flex;
     flex-direction: row;
+    flex-wrap: nowraps;
     color: white;
     padding: 0.2rem;
     border-radius: 5px;
     margin: 1rem;
     &--text {
       height: auto;
+      line-height: 50px;
+      font-weight: 500;
     }
   }
   &--selected {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: 90%;
     margin: auto;
   }
@@ -232,5 +253,39 @@ header {
   }
   &--utensil {
     background-color: $red-filter-color;
+  }
+}
+
+@media (min-width: 768px) {
+  header {
+    margin: auto;
+    width: 90vw;
+  }
+  .filters {
+    &--input {
+      //width: 150px;
+      width: 90%;
+    }
+
+    &--dropdown {
+      &--block {
+        margin: 2rem 2rem 2rem 0rem;
+        &--expanded {
+          width: 55%;
+          margin: 2rem 2rem 2rem 0rem;
+        }
+      }
+      &--element {
+        margin: 1rem 0.5rem;
+        width: 31%;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      width: 100%;
+      &--aside {
+        flex-direction: row;
+      }
+    }
   }
 }
