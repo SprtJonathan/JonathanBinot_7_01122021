@@ -6,7 +6,7 @@ let recipeList = []; // Liste qui contiendra toutes les recettes présentes dans
 let filterDropdownSelect; // Tous les éléments dropdown (les filtres)
 let globalFilterTab = []; // Tableau servant à contenir les filtres sélectionnés
 
-fetchData();
+fetchData(); // Appel de la fonction servant à récupérer les informations des recettes contenues dans le JSON
 
 // Fonction permettant d'afficher les options des filtres
 function displayOptions(param) {
