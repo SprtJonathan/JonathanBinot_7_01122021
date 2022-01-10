@@ -77,7 +77,7 @@ function displayRecipes(data, reciepeArray) {
     ); // Création de l'objet Recette en utilisant la fonction de la factory
 
     // Bloc créé pour chaque recette
-    recipeSection.innerHTML += createHTMLCode(recipe); // Fonction cherchée dans le fichier helpers.js pour créer le code HTML pour chaque photographe du site
+    recipeSection.innerHTML += createHTMLCode(recipe); // Fonction cherchée dans le fichier helpers.js pour créer le code HTML pour chaque recette du site
     displayIngredients(recipe);
     reciepeArray.push(object);
   }
