@@ -1,8 +1,8 @@
 // Ce fichier contient des fonctions qui seront amenées à être réutiliser. Ceci afin de ne pas les réécrire à chaque occurence
 
-// Création du code HTML pour l'affichage des photographes du site
+// Création du code HTML pour l'affichage des recettes du site
 function createHTMLCode(recipe) {
-  const photographerHtmlCode = `
+  const htmlCode = `
 <article class="recipe--article">
 <figure class="recipe--figure">
 <div class="recipe--figure--background"></div>
@@ -24,7 +24,7 @@ function createHTMLCode(recipe) {
 </article> 
 `;
 
-  return photographerHtmlCode;
+  return htmlCode;
 }
 
 function displayIngredients(recipe) {
