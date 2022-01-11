@@ -78,7 +78,7 @@ function displayRecipes(data, reciepeArray) {
 
     // Bloc créé pour chaque recette
     recipeSection.innerHTML += createHTMLCode(recipe); // Fonction cherchée dans le fichier helpers.js pour créer le code HTML pour chaque recette du site
-    displayIngredients(recipe);
+    displayIngredients(recipe); // Permet d'afficher les ingrédients sur chaque recette
     reciepeArray.push(object);
   }
 }
@@ -136,7 +136,11 @@ function searchRecipe(searchValue, tagsArray) {
     t1 = performance.now();
     tf = t1 - t0;
     console.log(
-      "Mot recherché : " + searchTags[0].name + " / temps d'exécution = " + tf + "ms"
+      "Mot recherché : " +
+        searchTags[0].name +
+        " / temps d'exécution = " +
+        tf +
+        "ms"
     ); // Affichage de la durée d'execution de la fonction
 
     function searchItemsSearchbar(objectsList, value) {
