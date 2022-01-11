@@ -29,7 +29,10 @@
           id="searchbar"
           placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette"
         />
-        <i id="searchbar-button" class="search--searchbar--button bi bi-search"></i>
+        <i
+          id="searchbar-button"
+          class="search--searchbar--button bi bi-search"
+        ></i>
       </div>
 
       <div id="chosen-filters" class="filters--selected"></div>
@@ -41,7 +44,6 @@
               placeholder="Ingrédient"
               id="ingredient-searchbar"
               class="filters--input background--ingredient"
-              onkeyup="filterFunction('ingredient')"
               onfocus="displayOptions('ingredient')"
             />
             <div
@@ -64,7 +66,6 @@
               placeholder="Appareil"
               id="device-searchbar"
               class="filters--input background--device"
-              onkeyup="filterFunction('device')"
               onfocus="displayOptions('device')"
             />
             <div
@@ -87,7 +88,6 @@
               placeholder="Ustensile"
               id="utensil-searchbar"
               class="filters--input background--utensil"
-              onkeyup="filterFunction('utensil')"
               onfocus="displayOptions('utensil')"
             />
             <div

@@ -78,7 +78,7 @@ function displayRecipes(data, reciepeArray) {
 
     // Bloc créé pour chaque recette
     recipeSection.innerHTML += createHTMLCode(recipe); // Fonction cherchée dans le fichier helpers.js pour créer le code HTML pour chaque recette du site
-    displayIngredients(recipe);
+    displayIngredients(recipe); // Permet d'afficher les ingrédients sur chaque recette
     reciepeArray.push(object);
   }
 }
